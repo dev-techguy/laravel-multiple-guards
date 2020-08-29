@@ -130,4 +130,4 @@ class HomeController extends Controller
  For any security vulnerabilities, please email to [Vincent Ososi](mailto:vincent@shiftech.co.ke).
  
 ## License
- This package is open-source, licensed under the [MIT license](https://opensource.org/licenses/MIT).
+ This package is open-source, licensed under the [MIT License](https://opensource.org/licenses/MIT).
