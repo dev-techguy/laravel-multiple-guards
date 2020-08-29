@@ -22,7 +22,7 @@
 </p>
 
 ## Introduction
-This library helps one to handle multiple guards. Read through the read me.
+This library helps one to handle multiple guards. Read through to understand how to use it.
 
 ## Installing
 
