@@ -9,6 +9,24 @@
             "email": "vincent@shiftech.co.ke"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {}
+    "keywords": [
+        "laravel",
+        "guards",
+        "authentication",
+        "multiple"
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "LaravelMultipleGuards\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelMultipleGuards\\LaravelMultipleGuardsServiceProvider"
+            ]
+        }
+    }
 }
