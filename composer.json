@@ -1,5 +1,5 @@
 {
-    "name": "techguy/laravel-multiple-guards",
+    "name": "dev-techguy/laravel-multiple-guards",
     "description": "This library helps one to handle multiple guards. Read through the read me.",
     "type": "library",
     "license": "MIT",
