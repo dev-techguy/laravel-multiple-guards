@@ -1,7 +1,7 @@
 # <p align="center"><a href="https://v-ososi.site/" target="_blank"><img width="400" src="https://github.com/dev-techguy/TechGuy/blob/master/techguy.png"></a></p>
 
 <p align="center">
-  <b>Be in the next level</b><br>
+  <b>Big Things, Start Small</b><br>
   <a href="https://github.com/dev-techguy/laravel-multiple-guards/issues">
   <img src="https://img.shields.io/github/issues/dev-techguy/laravel-multiple-guards.svg">
   </a>
