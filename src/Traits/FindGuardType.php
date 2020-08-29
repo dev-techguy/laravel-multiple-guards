@@ -36,9 +36,7 @@ trait FindGuardType
                 Log::emergency('This guard does not exists -> ' . $guard);
             }
         } else {
-            return response()->json([
-                'Message' => 'Kindly set the an array of guards in your .env file i.e \'web\',\'admin\''
-            ], 500);
+            Log::info('Kindly set the an array of guards in your .env file i.e \'web\',\'admin\'');
         }
     }
 }
