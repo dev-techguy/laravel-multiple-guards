@@ -1,4 +1,4 @@
-# <p align="center"><a href="https://v-ososi.site/" target="_blank"><img width="100" src="https://github.com/dev-techguy/TechGuy/blob/master/techguy.png"></a></p>
+# <p align="center"><a href="https://v-ososi.site/" target="_blank"><img width="400" src="https://github.com/dev-techguy/TechGuy/blob/master/techguy.png"></a></p>
 
 <p align="center">
   <b>Be in the next level</b><br>
