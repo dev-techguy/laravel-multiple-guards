@@ -1,0 +1,14 @@
+{
+    "name": "techguy/laravel-guards",
+    "description": "This library helps one to handle multiple guards. Read through the read me.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "vincent-ososi",
+            "email": "vincent@shiftech.co.ke"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
