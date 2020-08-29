@@ -110,6 +110,12 @@ class HomeController extends Controller
         return redirect()->route('login');
     }
 }
+
+/**
+ * How to get the guard name
+ * authorized
+*/
+ return $this->findGuardType(true); //@todo this returns the guard name i.e web , admin
 ```
 
 ## Version Guidance
