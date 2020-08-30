@@ -4,6 +4,7 @@
 namespace LaravelMultipleGuards\Traits;
 
 
+use Exception;
 use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -27,17 +28,20 @@ trait FindGuard
         if (count(config('laravel-multiple-guards.guards'))) {
             // check the guard authenticated by looping
             foreach (config('laravel-multiple-guards.guards') as $guard) {
-                if (Auth::guard((string)$guard)->check()) {
-                    if ($returnGuardNameString)
-                        return (string)$guard;
-                    return auth((string)$guard);
-                } elseif (Auth::guard()->check()) {
-                    if ($returnGuardNameString)
-                        return (string)$guard;
-                    return auth();
+                try {
+                    if (Auth::guard((string)$guard)->check()) {
+                        if ($returnGuardNameString)
+                            return (string)$guard;
+                        return auth((string)$guard);
+                    } elseif (Auth::guard()->check()) {
+                        if ($returnGuardNameString)
+                            return (string)$guard;
+                        return auth();
+                    }
+                } catch (Exception $exception) {
+                    Log::emergency('This guard does not exists -> ' . $guard);
+                    continue;
                 }
-
-                Log::emergency('This guard does not exists -> ' . $guard);
             }
         } else {
             Log::info('Kindly set the an array of guards in your .env file i.e \'web\',\'admin\'');
@@ -59,13 +63,16 @@ trait FindGuard
         if (count(config('laravel-multiple-guards.guards'))) {
             // check the guard authenticated by looping
             foreach (config('laravel-multiple-guards.guards') as $guard) {
-                if (Auth::guard((string)$guard)->check()) {
-                    return 'auth:' . $guard;
-                } elseif (Auth::guard()->check()) {
-                    return 'auth';
+                try {
+                    if (Auth::guard((string)$guard)->check()) {
+                        return 'auth:' . $guard;
+                    } elseif (Auth::guard()->check()) {
+                        return 'auth';
+                    }
+                } catch (Exception $exception) {
+                    Log::emergency('This middleware does not exists -> ' . 'auth:' . $guard);
+                    continue;
                 }
-
-                Log::emergency('This middleware does not exists -> ' . 'auth:' . $guard);
             }
         } else {
             Log::info('Kindly set a guard middleware in the config/auth.php file.');
