@@ -29,10 +29,18 @@ trait FindGuard
             foreach (config('laravel-multiple-guards.guards') as $guard) {
                 // validate if the guard driver exists
                 if (auth()->getDefaultDriver() === $guard)
-                    if (Auth::guard((string)$guard)->check()) {
-                        if ($returnGuardNameString)
-                            return (string)$guard;
-                        return auth((string)$guard);
+                    if ($guard === 'web') {
+                        if (Auth::guard()->check()) {
+                            if ($returnGuardNameString)
+                                return (string)$guard;
+                            return auth();
+                        }
+                    } else {
+                        if (Auth::guard((string)$guard)->check()) {
+                            if ($returnGuardNameString)
+                                return (string)$guard;
+                            return auth((string)$guard);
+                        }
                     }
 
                 Log::emergency('This guard does not exists -> ' . $guard);
@@ -59,10 +67,14 @@ trait FindGuard
             foreach (config('laravel-multiple-guards.guards') as $guard) {
                 // validate if the guard driver exists
                 if (auth()->getDefaultDriver() === $guard)
-                    if (Auth::guard((string)$guard)->check()) {
-                        if ($guard === 'web')
+                    if ($guard === 'web') {
+                        if (Auth::guard()->check()) {
                             return 'auth';
-                        return 'auth:' . $guard;
+                        }
+                    } else {
+                        if (Auth::guard((string)$guard)->check()) {
+                            return 'auth:' . $guard;
+                        }
                     }
 
                 Log::emergency('This middleware does not exists -> ' . 'auth:' . $guard);
