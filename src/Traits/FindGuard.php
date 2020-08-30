@@ -27,23 +27,19 @@ trait FindGuard
         if (count(config('laravel-multiple-guards.guards'))) {
             // check the guard authenticated by looping
             foreach (config('laravel-multiple-guards.guards') as $guard) {
-                // validate if the guard driver exists
-                if (auth()->getDefaultDriver() === $guard)
-                    if ($guard === 'web') {
-                        if (Auth::guard()->check()) {
-                            if ($returnGuardNameString)
-                                return (string)$guard;
-                            return auth();
-                        }
-                        return redirect()->intended();
-                    } else {
-                        if (Auth::guard((string)$guard)->check()) {
-                            if ($returnGuardNameString)
-                                return (string)$guard;
-                            return auth((string)$guard);
-                        }
-                        return redirect()->intended();
+                if ($guard === 'web') {
+                    if (Auth::guard()->check()) {
+                        if ($returnGuardNameString)
+                            return (string)$guard;
+                        return auth();
                     }
+                } else {
+                    if (Auth::guard((string)$guard)->check()) {
+                        if ($returnGuardNameString)
+                            return (string)$guard;
+                        return auth((string)$guard);
+                    }
+                }
 
                 Log::emergency('This guard does not exists -> ' . $guard);
                 continue;
@@ -68,19 +64,15 @@ trait FindGuard
         if (count(config('laravel-multiple-guards.guards'))) {
             // check the guard authenticated by looping
             foreach (config('laravel-multiple-guards.guards') as $guard) {
-                // validate if the guard driver exists
-                if (auth()->getDefaultDriver() === $guard)
-                    if ($guard === 'web') {
-                        if (Auth::guard()->check()) {
-                            return 'auth';
-                        }
-                        return redirect()->intended();
-                    } else {
-                        if (Auth::guard((string)$guard)->check()) {
-                            return 'auth:' . $guard;
-                        }
-                        return redirect()->intended();
+                if ($guard === 'web') {
+                    if (Auth::guard()->check()) {
+                        return 'auth';
                     }
+                } else {
+                    if (Auth::guard((string)$guard)->check()) {
+                        return 'auth:' . $guard;
+                    }
+                }
 
                 Log::emergency('This middleware does not exists -> ' . 'auth:' . $guard);
                 continue;
