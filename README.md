@@ -70,45 +70,45 @@ How to use the guards within your controller...
 ```php
 class HomeController extends Controller
 {
-    use FindGuardType;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return Renderable
-     */
-    public function index()
-    {
-        return view('home');
-    }
-
-    /**
-     * get authenticated user
-     */
-    public function getUser()
-    {
-        return $this->findGuardType()->user();
-    }
-
-    /**
-     * logout user
-     * @return RedirectResponse
-     */
-    public function logout()
-    {
-        $this->findGuardType()->logout();
-        return redirect()->route('login');
-    }
+    use FindGuard;
+    
+        /**
+         * Create a new controller instance.
+         *
+         * @return void
+         */
+        public function __construct()
+        {
+            $this->middleware($this->setGuardMiddleware()); //@todo this sets the middleware automatically i.e auth, auth:admin that you have defined in the config/auth.php
+        }
+    
+        /**
+         * Show the application dashboard.
+         *
+         * @return Renderable
+         */
+        public function index()
+        {
+            return view('home');
+        }
+    
+        /**
+         * get authenticated user
+         */
+        public function getUser()
+        {
+            return $this->findGuardType()->user();
+        }
+    
+        /**
+         * logout user
+         * @return RedirectResponse
+         */
+        public function logout()
+        {
+            $this->findGuardType()->logout();
+            return redirect()->route('login');
+        }
 }
 
 /**
@@ -122,7 +122,7 @@ class HomeController extends Controller
 
 | Version | Status     | Packagist           | Namespace    | Repo                |
 |---------|------------|---------------------|--------------|---------------------|
-| 1.x     | Latest     | `dev-techguy/laravel-multiple-guards` | `LaravelMultipleGuards` | [v1.0.0](https://github.com/dev-techguy/laravel-multiple-guards/releases/tag/v1.0.0)|
+| 1.x     | Latest     | `dev-techguy/laravel-multiple-guards` | `LaravelMultipleGuards` | [v1.0.1](https://github.com/dev-techguy/laravel-multiple-guards/releases/tag/v1.0.1)|
 
 [laravel-multiple-guards-repo]: https://github.com/dev-techguy/laravel-multiple-guards.git
 
