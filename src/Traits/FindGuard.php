@@ -35,12 +35,14 @@ trait FindGuard
                                 return (string)$guard;
                             return auth();
                         }
+                        return redirect()->intended();
                     } else {
                         if (Auth::guard((string)$guard)->check()) {
                             if ($returnGuardNameString)
                                 return (string)$guard;
                             return auth((string)$guard);
                         }
+                        return redirect()->intended();
                     }
 
                 Log::emergency('This guard does not exists -> ' . $guard);
@@ -72,10 +74,12 @@ trait FindGuard
                         if (Auth::guard()->check()) {
                             return 'auth';
                         }
+                        return redirect()->intended();
                     } else {
                         if (Auth::guard((string)$guard)->check()) {
                             return 'auth:' . $guard;
                         }
+                        return redirect()->intended();
                     }
 
                 Log::emergency('This middleware does not exists -> ' . 'auth:' . $guard);
