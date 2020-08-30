@@ -44,6 +44,7 @@ trait FindGuard
                     }
 
                 Log::emergency('This guard does not exists -> ' . $guard);
+                continue;
             }
         } else {
             Log::info('Kindly set the an array of guards in your .env file i.e \'web\',\'admin\'');
@@ -78,6 +79,7 @@ trait FindGuard
                     }
 
                 Log::emergency('This middleware does not exists -> ' . 'auth:' . $guard);
+                continue;
             }
         } else {
             Log::info('Kindly set a guard middleware in the config/auth.php file.');
