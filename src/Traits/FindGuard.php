@@ -29,14 +29,18 @@ trait FindGuard
             // check the guard authenticated by looping
             foreach (config('laravel-multiple-guards.guards') as $guard) {
                 try {
-                    if (Auth::guard((string)$guard)->check()) {
-                        if ($returnGuardNameString)
-                            return (string)$guard;
-                        return auth((string)$guard);
-                    } elseif (Auth::guard()->check()) {
-                        if ($returnGuardNameString)
-                            return (string)$guard;
-                        return auth();
+                    if ((string)$guard === 'web') {
+                        if (Auth::guard()->check()) {
+                            if ($returnGuardNameString)
+                                return (string)$guard;
+                            return auth();
+                        }
+                    } else {
+                        if (Auth::guard((string)$guard)->check()) {
+                            if ($returnGuardNameString)
+                                return (string)$guard;
+                            return auth((string)$guard);
+                        }
                     }
                 } catch (Exception $exception) {
                     Log::emergency('This guard does not exists -> ' . $guard);
@@ -64,10 +68,14 @@ trait FindGuard
             // check the guard authenticated by looping
             foreach (config('laravel-multiple-guards.guards') as $guard) {
                 try {
-                    if (Auth::guard((string)$guard)->check()) {
-                        return 'auth:' . $guard;
-                    } elseif (Auth::guard()->check()) {
-                        return 'auth';
+                    if ((string)$guard === 'web') {
+                        if (Auth::guard()->check()) {
+                            return 'auth';
+                        }
+                    } else {
+                        if (Auth::guard((string)$guard)->check()) {
+                            return 'auth:' . $guard;
+                        }
                     }
                 } catch (Exception $exception) {
                     Log::emergency('This middleware does not exists -> ' . 'auth:' . $guard);
