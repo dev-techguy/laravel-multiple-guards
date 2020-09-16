@@ -25,21 +25,21 @@ trait FindGuard
     public function findGuardType(bool $returnGuardNameString = false)
     {
         // validate if its an array
-        if (count(config('laravel-multiple-guards.guards'))) {
+        if (count($this->sliceArray())) {
             // check the guard authenticated by looping
-            foreach (config('laravel-multiple-guards.guards') as $guard) {
+            foreach ($this->sliceArray() as $guard) {
                 try {
-                    if ((string)$guard === 'web') {
-                        if (Auth::guard()->check()) {
-                            if ($returnGuardNameString)
-                                return (string)$guard;
-                            return auth();
-                        }
-                    } else {
+                    if ((string)$guard !== 'web') {
                         if (Auth::guard((string)$guard)->check()) {
                             if ($returnGuardNameString)
                                 return (string)$guard;
                             return auth((string)$guard);
+                        }
+                    } else {
+                        if (Auth::guard()->check()) {
+                            if ($returnGuardNameString)
+                                return (string)$guard;
+                            return auth();
                         }
                     }
                 } catch (Exception $exception) {
@@ -64,17 +64,17 @@ trait FindGuard
     public function setGuardMiddleware()
     {
         // validate if its an array
-        if (count(config('laravel-multiple-guards.guards'))) {
+        if (count($this->sliceArray())) {
             // check the guard authenticated by looping
-            foreach (config('laravel-multiple-guards.guards') as $guard) {
+            foreach ($this->sliceArray() as $guard) {
                 try {
-                    if ((string)$guard === 'web') {
-                        if (Auth::guard()->check()) {
-                            return 'auth';
-                        }
-                    } else {
+                    if ((string)$guard !== 'web') {
                         if (Auth::guard((string)$guard)->check()) {
                             return 'auth:' . $guard;
+                        }
+                    } else {
+                        if (Auth::guard()->check()) {
+                            return 'auth';
                         }
                     }
                 } catch (Exception $exception) {
@@ -84,6 +84,43 @@ trait FindGuard
             }
         } else {
             Log::info('Kindly set a guard middleware in the config/auth.php file.');
+        }
+    }
+
+    /**
+     * Slice and re-arrange the array so that the
+     * web guard will always come last
+     * @return array
+     */
+    private function sliceArray()
+    {
+        // define empty array
+        $sliced = [];
+
+        try {
+            $array = config('laravel-multiple-guards.guards');
+
+            // get array count/length
+            $arrayLength = count($array);
+
+            // do the looping
+            foreach ($array as $item) {
+                if (!in_array($item, $sliced)) {
+                    if ($item !== 'web') {
+                        array_push($sliced, $item);
+                    }
+
+                    if ($arrayLength == 1) {
+                        array_push($sliced, 'web');
+                    }
+                }
+                $arrayLength--;
+            }
+
+            return $sliced;
+        } catch (Exception $exception) {
+            Log::emergency('Error occurred while slicing and re-arranging the array.');
+            return $sliced;
         }
     }
 }
