@@ -21,6 +21,7 @@ trait FindGuard
      * @param bool $returnGuardNameString
      * @return Factory|Guard|StatefulGuard|Application|string
      * ---------------------------------------------------------
+     * @throws Exception
      */
     public function findGuardType(bool $returnGuardNameString = false)
     {
@@ -43,6 +44,8 @@ trait FindGuard
                         }
                     }
                 } catch (Exception $exception) {
+                    if (app()->environment() === 'local')
+                        throw new Exception($exception->getMessage());
                     Log::emergency('This guard does not exists -> ' . $guard);
                     continue;
                 }
@@ -57,6 +60,7 @@ trait FindGuard
      * set the guard middleware
      * @return string
      * -----------------------------------------------------------------
+     * @throws Exception
      * @todo this will help setting and handling multiple
      * auth middleware in one controller i.e auth, auth:admin and so on
      * -----------------------------------------------------------------
@@ -78,6 +82,8 @@ trait FindGuard
                         }
                     }
                 } catch (Exception $exception) {
+                    if (app()->environment() === 'local')
+                        throw new Exception($exception->getMessage());
                     Log::emergency('This middleware does not exists -> ' . 'auth:' . $guard);
                     continue;
                 }
@@ -91,6 +97,7 @@ trait FindGuard
      * Slice and re-arrange the array so that the
      * web guard will always come last
      * @return array
+     * @throws Exception
      */
     private function sliceArray()
     {
@@ -119,6 +126,8 @@ trait FindGuard
 
             return $sliced;
         } catch (Exception $exception) {
+            if (app()->environment() === 'local')
+                throw new Exception($exception->getMessage());
             Log::emergency('Error occurred while slicing and re-arranging the array.');
             return $sliced;
         }
