@@ -122,7 +122,7 @@ class HomeController extends Controller
 
 | Version | Status     | Packagist           | Namespace    | Repo                |
 |---------|------------|---------------------|--------------|---------------------|
-| 1.x     | Latest     | `dev-techguy/laravel-multiple-guards` | `LaravelMultipleGuards` | [v1.1.2](https://github.com/dev-techguy/laravel-multiple-guards/releases/tag/v1.1.2)|
+| 1.x     | Latest     | `dev-techguy/laravel-multiple-guards` | `LaravelMultipleGuards` | [v1.1.3](https://github.com/dev-techguy/laravel-multiple-guards/releases/tag/v1.1.3)|
 
 [laravel-multiple-guards-repo]: https://github.com/dev-techguy/laravel-multiple-guards.git
 
