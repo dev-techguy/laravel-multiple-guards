@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -96,11 +97,15 @@ trait FindGuard
     /**
      * Slice and re-arrange the array so that the
      * web guard will always come last
-     * @return array
+     * @return array|RedirectResponse
      * @throws Exception
      */
     private function sliceArray()
     {
+        // before start of slicing check if one is authorized
+        if (!Auth::check())
+            return redirect()->intended();
+
         // define empty array
         $sliced = [];
 
