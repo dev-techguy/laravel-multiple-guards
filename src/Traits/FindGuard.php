@@ -26,6 +26,10 @@ trait FindGuard
      */
     public function findGuardType(bool $returnGuardNameString = false)
     {
+        // before start of slicing check if one is authorized
+        if (!Auth::check())
+            return redirect()->intended();
+
         // validate if its an array
         if (count($this->sliceArray())) {
             // check the guard authenticated by looping
@@ -68,6 +72,10 @@ trait FindGuard
      */
     public function setGuardMiddleware()
     {
+        // before start of slicing check if one is authorized
+        if (!Auth::check())
+            return redirect()->intended();
+
         // validate if its an array
         if (count($this->sliceArray())) {
             // check the guard authenticated by looping
