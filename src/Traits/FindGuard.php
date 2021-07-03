@@ -24,7 +24,7 @@ trait FindGuard
      * ---------------------------------------------------------
      * @throws Exception
      */
-    public function findGuardType(bool $returnGuardNameString = false)
+    public function findGuardType(bool $returnGuardNameString = false): Guard|string|StatefulGuard|Application|Factory
     {
         // validate if its an array
         if (count($this->sliceArray())) {
@@ -52,7 +52,7 @@ trait FindGuard
                 }
             }
         } else {
-            Log::info('Kindly set the an array of guards in your .env file i.e \'web\',\'admin\'');
+            Log::info('Kindly set an array of guards in your .env file i.e \'web\',\'admin\'');
         }
     }
 
@@ -66,7 +66,7 @@ trait FindGuard
      * auth middleware in one controller i.e auth, auth:admin and so on
      * -----------------------------------------------------------------
      */
-    public function setGuardMiddleware()
+    public function setGuardMiddleware(): string
     {
         // validate if its an array
         if (count($this->sliceArray())) {
@@ -97,10 +97,10 @@ trait FindGuard
     /**
      * Slice and re-arrange the array so that the
      * web guard will always come last
-     * @return array|RedirectResponse
+     * @return array
      * @throws Exception
      */
-    private function sliceArray()
+    private function sliceArray(): array
     {
         // define empty array
         $sliced = [];
